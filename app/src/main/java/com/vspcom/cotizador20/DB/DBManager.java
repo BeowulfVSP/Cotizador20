@@ -1,5 +1,7 @@
 package com.vspcom.cotizador20.DB;
 
+import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 public class DBManager {
@@ -15,9 +17,30 @@ public class DBManager {
     public static final String PRODUCTO_UBICACION     = "ubicacion";
     public static final String PRODUCTO_FABRICANTE    = "fabricante";
 
-    public static final String TABLA_PRODUCTOS_CREATE = "create table productos(_codigo text not null,  descripcion text not null, linea text not null, marca text not null, precio text not null, impuesto text not null, ubicacion text not null, fabricacion text not null))";
+    public static final String TABLA_PRODUCTOS_CREATE = "create table " + TABLA_PRODUCTOS + "(" +
+            PRODUCTO_CODIGO + " text not null, " +
+            PRODUCTO_DESCRIPCION + " text not null, " +
+            PRODUCTO_LINEA + " text not null, " +
+            PRODUCTO_MARCA + " text not null, " +
+            PRODUCTO_PRECIO + " text not null, " +
+            PRODUCTO_IMPUESTO + " text not null, " +
+            PRODUCTO_UBICACION + " text not null, " +
+            PRODUCTO_FABRICANTE + " text not null)";
 
     private DBConexion _conexion;
-    //private SQLiteDatabase
+    private SQLiteDatabase _basededatos;
+
+    public DBManager(Context context) {
+        _conexion = new DBConexion(context);
+    }
+
+    public DBManager open() throws SQLException {
+        _basededatos = _conexion.getWritableDatabase();
+        return this;
+    }
+
+    public void close() {
+        _conexion.close();
+    }
 
 }

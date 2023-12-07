@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 public class DBConexion extends SQLiteOpenHelper {
 
-    private static final String DB_NAME = "vspComputer23";
+    private static final String DB_NAME = "vspComputer23.db";
     private static final int DB_VERSION = 1;
 
     public DBConexion(Context context) {
@@ -17,11 +17,11 @@ public class DBConexion extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        // Codigo sql
+        sqLiteDatabase.execSQL(DBManager.TABLA_PRODUCTOS_CREATE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        // Codigo SQL
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DBManager.TABLA_PRODUCTOS);
     }
 }
