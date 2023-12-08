@@ -17,8 +17,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
-    private ToggleButton checkboxCCTV;
-    private ToggleButton checkboxB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,32 +27,13 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tabLayout);
-        checkboxCCTV = findViewById(R.id.btnSectionCCTV);
-        checkboxB = findViewById(R.id.btnSectionB);
+
 
         FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager());
         viewPager.setAdapter(fragmentAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
-        btnSectionCCTV.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                // Mostrar fragmento correspondiente a la sección CCTV
-                viewPager.setCurrentItem(0, true);
-            } else {
-                // Ocultar el fragmento correspondiente a la sección CCTV si no está seleccionado
-                // (puedes realizar una lógica similar para los otros fragmentos)
-            }
-        });
-
-        btnSectionComingSoon.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                // Mostrar fragmento correspondiente a la sección Coming Soon
-                viewPager.setCurrentItem(1, true);
-            } else {
-                // Ocultar el fragmento correspondiente a la sección Coming Soon si no está seleccionado
-                // (puedes realizar una lógica similar para los otros fragmentos)
-            }
-        });
+        fragmentAdapter.setShowComingSoon(false);
     }
 
     @Override
@@ -66,6 +45,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        if (isFinishing() || isChangingConfigurations()) {
+            closeDatabaseConnection();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         closeDatabaseConnection();
     }
 

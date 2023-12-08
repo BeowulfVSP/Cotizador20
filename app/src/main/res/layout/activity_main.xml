@@ -11,67 +11,39 @@
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
-        <!-- Título para el cotizador -->
+        android:gravity="center"
+        android:padding="6dp"
+        android:layout_marginTop="0dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cotizador VSP"
             android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_gravity="center"/>
     </LinearLayout>
 
     <!-- Cuerpo -->
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/headerLayout">
+        android:layout_height="match_parent"
+        android:layout_below="@id/headerLayout"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <!-- Tabs para las secciones -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content" />
 
-            <!-- Grupo de botones como ToggleButtons -->
-            <LinearLayout
-                android:id="@+id/toggleButtonLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-                <ToggleButton
-                    android:id="@+id/btnSectionCCTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="CCTV"
-                    android:textOff="CCTV"
-                    android:textOn="CCTV" />
-
-                <ToggleButton
-                    android:id="@+id/btnSectionB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="B"
-                    android:textOff="B"
-                    android:textOn="B" />
-
-                <!-- Agrega más ToggleButtons según sea necesario -->
-
-            </LinearLayout>
-
-            <!-- Tabs para las secciones -->
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/viewPager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 
     <!-- Pie -->
     <LinearLayout

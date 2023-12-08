@@ -8,8 +8,11 @@ import com.vspcom.cotizador20.Fragments.CCTV;
 import com.vspcom.cotizador20.Fragments.comingsong;
 
 public class FragmentAdapter extends FragmentPagerAdapter {
+    private boolean showComingSoon;
+
     public FragmentAdapter(FragmentManager fm) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        showComingSoon = false;
     }
 
     @Override
@@ -18,7 +21,7 @@ public class FragmentAdapter extends FragmentPagerAdapter {
             case 0:
                 return new CCTV();
             case 1:
-                return new comingsong();
+                return showComingSoon ? new comingsong() : null;
             default:
                 return null;
         }
@@ -26,7 +29,7 @@ public class FragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return showComingSoon ? 2 : 1;
     }
 
     @Override
@@ -39,5 +42,10 @@ public class FragmentAdapter extends FragmentPagerAdapter {
             default:
                 return null;
         }
+    }
+
+    public void setShowComingSoon(boolean show) {
+        showComingSoon = show;
+        notifyDataSetChanged();
     }
 }
