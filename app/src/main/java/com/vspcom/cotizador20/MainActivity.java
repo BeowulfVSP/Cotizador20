@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         fragmentAdapter.setShowComingSoon(false);
+
+        //openDatabaseConnection();
+        //closeDatabaseConnection();
     }
 
     @Override
@@ -67,4 +70,5 @@ public class MainActivity extends AppCompatActivity {
     private void closeDatabaseConnection() {
         dbManager.close();
     }
+
 }

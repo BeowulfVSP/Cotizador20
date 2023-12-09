@@ -18,10 +18,14 @@ public class DBConexion extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(DBManager.TABLA_PRODUCTOS_CREATE);
+        sqLiteDatabase.execSQL(DBManager.TABLA_COTIZAPART_CREATE);
+        sqLiteDatabase.execSQL(DBManager.TABLA_COTIZACION_CREATE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DBManager.TABLA_PRODUCTOS);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DBManager.TABLA_COTIZACION);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DBManager.TABLA_COTIZAPART);
     }
 }
