@@ -7,13 +7,25 @@
     tools:context=".MainActivity">
 
     <!-- Encabezado -->
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:padding="6dp"
         android:layout_marginTop="0dp">
+
+        <!-- Botón de opciones -->
+        <ImageButton
+            android:id="@+id/optionsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sync"
+            android:background="@null"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:padding="8dp"/>
+
+        <!-- TextView del encabezado -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -21,8 +33,9 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:gravity="center"
-            android:layout_gravity="center"/>
-    </LinearLayout>
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
 
     <!-- Cuerpo -->
     <LinearLayout

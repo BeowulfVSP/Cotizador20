@@ -3,13 +3,25 @@ package com.vspcom.cotizador20;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.ToggleButton;
 
 import com.google.android.material.tabs.TabLayout;
 import com.vspcom.cotizador20.Adapters.FragmentAdapter;
 import com.vspcom.cotizador20.DB.DBManager;
 import com.vspcom.cotizador20.DB.DBConexion;
+import com.vspcom.cotizador20.SQLServer.DatabaseConnector;
+
+import android.util.Log;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.SQLOutput;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
+
+    private ImageButton optionsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +49,15 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentAdapter.setShowComingSoon(false);
 
-        //openDatabaseConnection();
-        //closeDatabaseConnection();
+        createDatabase();
+
+        optionsButton = findViewById(R.id.optionsButton);
+        optionsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sync();
+            }
+        });
     }
 
     @Override
@@ -69,6 +90,41 @@ public class MainActivity extends AppCompatActivity {
 
     private void closeDatabaseConnection() {
         dbManager.close();
+    }
+
+    private void createDatabase() {
+        openDatabaseConnection();
+        closeDatabaseConnection();
+    }
+
+    private void sync() {
+        new DatabaseTask().execute();
+    }
+
+    private class DatabaseTask extends AsyncTask<Void, Void, Connection> {
+
+        @Override
+        protected Connection doInBackground(Void... voids) {
+            Connection connection = null;
+            try {
+                connection = DatabaseConnector.connect();
+                // Realizar operaciones
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return connection;
+        }
+
+        @Override
+        protected void onPostExecute(Connection connection) {
+            if (connection != null) {
+                // Conexión exitosa
+                System.out.println("Conexion Exitosa");
+            } else {
+                // Error en la conexión
+                System.out.println("Error durante la conexion");
+            }
+        }
     }
 
 }
