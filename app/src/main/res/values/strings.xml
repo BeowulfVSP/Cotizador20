@@ -2,4 +2,13 @@
     <string name="app_name">Cotizador20</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="grabador">GRABADOR</string>
+    <string name="agregar">Agregar</string>
+    <string name="camaras">CAMARAS</string>
+    <string name="detalles_del_servicio">Detalles del servicio</string>
+    <string name="servicio">SERVICIO</string>
+    <string name="accesorios">ACCESORIOS</string>
+    <string name="cable">CABLE</string>
+    <string name="fuente">FUENTE</string>
+    <string name="almacenamiento">ALMACENAMIENTO</string>
 </resources>
