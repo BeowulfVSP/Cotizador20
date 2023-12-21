@@ -1,6 +1,7 @@
 package com.vspcom.cotizador20;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.AsyncTask;
@@ -11,10 +12,12 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.vspcom.cotizador20.Adapters.FragmentAdapter;
 import com.vspcom.cotizador20.DB.DBManager;
+import com.vspcom.cotizador20.Fragments.CCTV;
 import com.vspcom.cotizador20.NewClasses.CSpinner;
 import com.vspcom.cotizador20.NewClasses.Producto;
 import com.vspcom.cotizador20.SQLServer.DatabaseConnector;
@@ -26,6 +29,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
@@ -113,7 +117,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sync() {
-        new DatabaseTask().execute();
+        CCTV cctvFragment = (CCTV) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.viewPager + ":" + viewPager.getCurrentItem());
+
+        if (cctvFragment != null) {
+            cctvFragment.borrarElementos();
+        }
+
         new DatabaseTask().execute();
     }
 
@@ -186,6 +195,13 @@ public class MainActivity extends AppCompatActivity {
         cableList.clear();
         accesoriosList.clear();
 
+        Spinner spinnerGrabador = findViewById(R.id.spinnerGra);
+        Spinner spinnerCamaras = findViewById(R.id.spinnerCam);
+        Spinner spinnerAlmacenamiento = findViewById(R.id.spinnerAlm);
+        Spinner spinnerFuente = findViewById(R.id.spinnerFue);
+        Spinner spinnerCable = findViewById(R.id.spinnerCab);
+        Spinner spinnerAccesorios = findViewById(R.id.spinnerAcc);
+
         for( Producto producto : productosSQLIte ){
             Log.d("MainActivity", "Código: " + producto.getArticulo() +
                     ", Descripción: " + producto.getDescripcion() +
@@ -243,7 +259,6 @@ public class MainActivity extends AppCompatActivity {
 
         grabadorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        Spinner spinnerGrabador = findViewById(R.id.spinnerGra);
         spinnerGrabador.setAdapter(grabadorAdapter);
         /* GRABADOR */
 
@@ -267,7 +282,6 @@ public class MainActivity extends AppCompatActivity {
 
         camarasAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        Spinner spinnerCamaras = findViewById(R.id.spinnerCam);
         spinnerCamaras.setAdapter(camarasAdapter);
         /* CAMARAS */
 
@@ -291,7 +305,6 @@ public class MainActivity extends AppCompatActivity {
 
         almacenamientoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        Spinner spinnerAlmacenamiento = findViewById(R.id.spinnerAlm);
         spinnerAlmacenamiento.setAdapter(almacenamientoAdapter);
         /* ALMACENAMIENTO */
 
@@ -315,7 +328,6 @@ public class MainActivity extends AppCompatActivity {
 
         fuenteAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        Spinner spinnerFuente = findViewById(R.id.spinnerFue);
         spinnerFuente.setAdapter(fuenteAdapter);
         /* FUENTE */
 
@@ -339,7 +351,6 @@ public class MainActivity extends AppCompatActivity {
 
         cableAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        Spinner spinnerCable = findViewById(R.id.spinnerCab);
         spinnerCable.setAdapter(cableAdapter);
         /* CABLE */
 
@@ -363,8 +374,13 @@ public class MainActivity extends AppCompatActivity {
 
         accesoriosAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        Spinner spinnerAccesorios = findViewById(R.id.spinnerAcc);
         spinnerAccesorios.setAdapter(accesoriosAdapter);
         /* ACCESORIOS */
     }
+
+    public void actualizarTotalCostoEnActivity(double totalCosto) {
+        TextView textViewTotal = findViewById(R.id.textViewTotal);
+        textViewTotal.setText(String.format(Locale.getDefault(), "Total: %.2f", totalCosto));
+    }
+
 }

@@ -150,12 +150,20 @@ public class DBManager {
         values.put(PRODUCTO_UBICACION, producto.getUbicacion());
         values.put(PRODUCTO_FABRICANTE, producto.getFabricante());
 
-        _basededatos.insertWithOnConflict(
+        int rowsAffected = _basededatos.update(
                 TABLA_PRODUCTOS,
-                null,
                 values,
-                SQLiteDatabase.CONFLICT_REPLACE
+                PRODUCTO_CODIGO + " = ?",
+                new String[]{producto.getArticulo()}
         );
+
+        if (rowsAffected == 0) {
+            _basededatos.insert(
+                    TABLA_PRODUCTOS,
+                    null,
+                    values
+            );
+        }
     }
 
     public List<Producto> getAllProducts() {
@@ -214,6 +222,48 @@ public class DBManager {
         }
 
         return productos;
+    }
+
+    public Producto getProductById(String productId) {
+        Producto producto = null;
+        String[] columns = {
+                PRODUCTO_CODIGO,
+                PRODUCTO_DESCRIPCION,
+                PRODUCTO_LINEA,
+                PRODUCTO_MARCA,
+                PRODUCTO_PRECIO,
+                PRODUCTO_IMPUESTO,
+                PRODUCTO_UBICACION,
+                PRODUCTO_FABRICANTE
+        };
+        String selection = PRODUCTO_CODIGO + " = ?";
+        String[] selectionArgs = {productId};
+
+        Cursor cursor = _basededatos.query(
+                TABLA_PRODUCTOS,
+                columns,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        if (cursor != null && cursor.moveToFirst()) {
+            String codigo = cursor.getString(cursor.getColumnIndexOrThrow(PRODUCTO_CODIGO));
+            String descripcion = cursor.getString(cursor.getColumnIndexOrThrow(PRODUCTO_DESCRIPCION));
+            String linea = cursor.getString(cursor.getColumnIndexOrThrow(PRODUCTO_LINEA));
+            String marca = cursor.getString(cursor.getColumnIndexOrThrow(PRODUCTO_MARCA));
+            String precio = cursor.getString(cursor.getColumnIndexOrThrow(PRODUCTO_PRECIO));
+            String impuesto = cursor.getString(cursor.getColumnIndexOrThrow(PRODUCTO_IMPUESTO));
+            String ubicacion = cursor.getString(cursor.getColumnIndexOrThrow(PRODUCTO_UBICACION));
+            String fabricante = cursor.getString(cursor.getColumnIndexOrThrow(PRODUCTO_FABRICANTE));
+
+            producto = new Producto(codigo, descripcion, linea, marca, precio, impuesto, ubicacion, fabricante);
+            cursor.close();
+        }
+
+        return producto;
     }
 
 }
